@@ -1,4 +1,4 @@
-package com.socialmedia.application.services;
+package com.socialmedia.application.service;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.BrowserCallable;
