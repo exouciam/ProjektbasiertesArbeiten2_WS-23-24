@@ -13,12 +13,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 @Setter
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+public class User {
 
     @Id
     @Length(min = 8, max = 20)
@@ -50,19 +51,23 @@ public class Users {
 
     @ManyToMany
     @JoinTable(
-            name = "isFriendsWith",
+            name = "areFriends",
             joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "friendUsername")
-    )
-    private Set<Users> friends = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "friendUsername"))
+    private Set<User> friends = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-    private Set<Comments> comments = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Comment> comments = new HashSet<>();
 
-    @OneToOne(mappedBy = "users")
-    private ChatRooms chatRooms;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Post> posts = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-    private Set<Posts> posts = new HashSet<>();
+    @OneToOne(mappedBy = "user")
+    private ChatRoom chatRooms;
 
+    @OneToOne(mappedBy = "user")
+    private Chat chat;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Message> messages = new HashSet<>();
 }

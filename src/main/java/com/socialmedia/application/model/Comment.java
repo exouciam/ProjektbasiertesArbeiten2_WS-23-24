@@ -7,36 +7,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "comment")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Posts{
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "post_Id")
+    @Column(name = "comment_id")
     private UUID id;
+
+    @Column(name = "text")
+    private String text;
 
     @Transient
     private LocalTime creationDate;
 
-    private String text;
-
-    @Column(name = "pictureUrl")
-    private String pictureUrl;
-
-    private int likes;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "username")
-    private Users user;
+    private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
-    private Set<Comments> comments;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 }

@@ -1,7 +1,6 @@
 package com.socialmedia.application.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,29 +11,32 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "comments")
+@Table(name = "post")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comments {
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "comment_Id")
+    @Column(name = "post_id")
     private UUID id;
-
-    @Column(name = "text")
-    private String text;
 
     @Transient
     private LocalTime creationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "username")
-    private Users users;
+    private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "posts_id")
-    private Posts posts;
+    @Column(name = "pictureUrl")
+    private String pictureUrl;
+
+    private int likes;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username")
+    private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    private Set<Comment> comments;
 }
