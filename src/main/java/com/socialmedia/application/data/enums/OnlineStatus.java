@@ -1,9 +1,9 @@
-package com.socialmedia.application.model.enums;
+package com.socialmedia.application.data.enums;
 
 /**
- * The {@link UserStatus} provides the information when the user is online or offline
+ * The {@link OnlineStatus} provides the information when the user is online or offline
  */
-public enum UserStatus {
+public enum OnlineStatus {
     ONLINE,
     OFFLINE;
     @Override

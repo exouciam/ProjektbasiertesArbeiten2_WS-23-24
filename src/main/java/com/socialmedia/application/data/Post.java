@@ -1,4 +1,4 @@
-package com.socialmedia.application.model;
+package com.socialmedia.application.data;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

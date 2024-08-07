@@ -1,6 +1,7 @@
-package com.socialmedia.application.model;
+package com.socialmedia.application.data;
 
-import com.socialmedia.application.model.enums.UserStatus;
+import com.socialmedia.application.data.embeddable.UserChatKey;
+import com.socialmedia.application.data.enums.OnlineStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,15 +24,18 @@ public class User {
 
     @Id
     @Length(min = 8, max = 20)
-    @Column(name = "username", nullable = false, unique = true)
+    @NotNull
+    @Column(name = "username", unique = true)
     private String username;
 
     @Email
     @NotEmpty
-    @Column(name = "email", nullable = false, unique = true)
+    @NotNull
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
+    @NotNull
     @Size(min = 8, max = 64, message = "Passwort muss 8 bis 64 Zeichen lang sein.")
     @EqualsAndHashCode.Include
     private String password;
@@ -47,7 +51,16 @@ public class User {
 
     @Enumerated(EnumType.ORDINAL)
     @NotNull
-    private UserStatus currentUserStatus;
+    private OnlineStatus onlineStatus;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ChatRoom chatRoom;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserChat> chats;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "fromUser")
+    private Set<Message> messages = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -62,12 +75,4 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Post> posts = new HashSet<>();
 
-    @OneToOne(mappedBy = "user")
-    private ChatRoom chatRooms;
-
-    @OneToOne(mappedBy = "user")
-    private Chat chat;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private Set<Message> messages = new HashSet<>();
 }

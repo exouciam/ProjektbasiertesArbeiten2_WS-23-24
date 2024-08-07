@@ -1,4 +1,4 @@
-package com.socialmedia.application.model;
+package com.socialmedia.application.data;
 
 
 import jakarta.persistence.*;
@@ -25,7 +25,7 @@ public class ChatRoom {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "chatRoom_id")
+    @JoinColumn(name = "username")
     private User user;
 
     @ManyToMany

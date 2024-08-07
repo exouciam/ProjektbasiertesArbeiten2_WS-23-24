@@ -1,5 +1,6 @@
-package com.socialmedia.application.model;
+package com.socialmedia.application.data;
 
+import com.socialmedia.application.data.embeddable.UserChatKey;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,13 +29,9 @@ public class Chat {
     @ManyToMany(mappedBy = "chats")
     private Set<ChatRoom> chatRooms = new HashSet<>();
 
-    @OneToOne
-    @JoinColumn(name = "username1", nullable = false)
-    private User user1;
+    @OneToMany(mappedBy = "chat")
+    private Set<UserChat> users;
 
-    @OneToOne
-    @JoinColumn(name = "username2", nullable = false)
-    private User user2;
 
     @ManyToMany
     @JoinTable(

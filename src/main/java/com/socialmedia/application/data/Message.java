@@ -1,4 +1,4 @@
-package com.socialmedia.application.model;
+package com.socialmedia.application.data;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,10 +33,8 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "username")
-    private User fromUsername;
+    private User fromUser;
 
-    @ManyToOne
-    @JoinColumn(name = "username")
-    private User toFriendUsername;
-
+    @OneToOne
+    private User toUser;
 }
